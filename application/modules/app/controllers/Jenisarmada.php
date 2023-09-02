@@ -3,11 +3,15 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Jenisarmada extends CI_Controller
+class Jenisarmada extends MY_Controller
 {
-    function __construct()
+
+    public function __construct()
     {
         parent::__construct();
+        parent::_auth($this->uri->uri_string());
+        $this->sess = $this->session->logged_in;
+        $this->rolelist = $this->sess['rolelist'][ucfirst($this->uri->segment(2))];
         $this->load->model('Jenisarmada_model');
         $this->load->library('form_validation');
     }
@@ -18,11 +22,11 @@ class Jenisarmada extends CI_Controller
         $start = intval($this->input->get('start'));
         
         if ($q <> '') {
-            $config['base_url'] = base_url() . 'jenisarmada/index.html?q=' . urlencode($q);
-            $config['first_url'] = base_url() . 'jenisarmada/index.html?q=' . urlencode($q);
+            $config['base_url'] = base_url() . 'app/jenisarmada/index?q=' . urlencode($q);
+            $config['first_url'] = base_url() . 'app/jenisarmada/index?q=' . urlencode($q);
         } else {
-            $config['base_url'] = base_url() . 'jenisarmada/index.html';
-            $config['first_url'] = base_url() . 'jenisarmada/index.html';
+            $config['base_url'] = base_url() . 'app/jenisarmada/index';
+            $config['first_url'] = base_url() . 'app/jenisarmada/index';
         }
 
         $config['per_page'] = 10;
@@ -39,34 +43,29 @@ class Jenisarmada extends CI_Controller
             'pagination' => $this->pagination->create_links(),
             'total_rows' => $config['total_rows'],
             'start' => $start,
+            'session' => $this->sess,
+            'rolelist' => $this->rolelist,
+            'template' => 'jenisarmada/jenisarmada_list',
+            'extracss' => '',
+            'extrajs' => '',
         );
-        $this->load->view('jenisarmada/jenisarmada_list', $data);
-    }
-
-    public function read($id) 
-    {
-        $row = $this->Jenisarmada_model->get_by_id($id);
-        if ($row) {
-            $data = array(
-		'id' => $row->id,
-		'jenis' => $row->jenis,
-	    );
-            $this->load->view('jenisarmada/jenisarmada_read', $data);
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('jenisarmada'));
-        }
+        $this->load->view('base/content', $data);
     }
 
     public function create() 
     {
         $data = array(
             'button' => 'Create',
-            'action' => site_url('jenisarmada/create_action'),
+            'action' => site_url('app/jenisarmada/create_action'),
 	    'id' => set_value('id'),
 	    'jenis' => set_value('jenis'),
-	);
-        $this->load->view('jenisarmada/jenisarmada_form', $data);
+        'session' => $this->sess,
+        'rolelist' => $this->rolelist,
+        'template' => 'jenisarmada/jenisarmada_form',
+        'extracss' => '',
+        'extrajs' => '',
+    );
+    $this->load->view('base/content', $data);
     }
     
     public function create_action() 
@@ -82,7 +81,7 @@ class Jenisarmada extends CI_Controller
 
             $this->Jenisarmada_model->insert($data);
             $this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('jenisarmada'));
+            redirect(site_url('app/jenisarmada'));
         }
     }
     
@@ -93,14 +92,19 @@ class Jenisarmada extends CI_Controller
         if ($row) {
             $data = array(
                 'button' => 'Update',
-                'action' => site_url('jenisarmada/update_action'),
+                'action' => site_url('app/jenisarmada/update_action'),
 		'id' => set_value('id', $row->id),
 		'jenis' => set_value('jenis', $row->jenis),
-	    );
-            $this->load->view('jenisarmada/jenisarmada_form', $data);
+        'session' => $this->sess,
+        'rolelist' => $this->rolelist,
+        'template' => 'jenisarmada/jenisarmada_form',
+        'extracss' => '',
+        'extrajs' => '',
+    );
+    $this->load->view('base/content', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('jenisarmada'));
+            redirect(site_url('app/jenisarmada'));
         }
     }
     
@@ -117,7 +121,7 @@ class Jenisarmada extends CI_Controller
 
             $this->Jenisarmada_model->update($this->input->post('id', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('jenisarmada'));
+            redirect(site_url('app/jenisarmada'));
         }
     }
     
@@ -128,16 +132,16 @@ class Jenisarmada extends CI_Controller
         if ($row) {
             $this->Jenisarmada_model->delete($id);
             $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('jenisarmada'));
+            redirect(site_url('app/jenisarmada'));
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('jenisarmada'));
+            redirect(site_url('app/jenisarmada'));
         }
     }
 
     public function _rules() 
     {
-	$this->form_validation->set_rules('jenis', 'jenis', 'trim|required');
+	$this->form_validation->set_rules('jenis', 'jenis', 'trim|required|xss_clean');
 
 	$this->form_validation->set_rules('id', 'id', 'trim');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');

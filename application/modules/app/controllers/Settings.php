@@ -8,9 +8,11 @@ class Settings extends MY_Controller {
     function __construct() {
         parent::__construct();
         parent::_auth($this->uri->uri_string());
+        $this->sess = $this->session->logged_in;        
+        $this->rolelist = $this->sess['rolelist'][ucfirst($this->uri->segment(2))];
         $this->load->model('Settings_model');
         $this->load->library('form_validation');
-        $this->sess = $this->session->logged_in;
+        
     }
 
     public function index() {

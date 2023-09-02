@@ -23,7 +23,7 @@
         <link href="<?php echo base_url() ?>assets/app/css/layout.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url() ?>assets/app/css/color_scheme/blue.css" rel="stylesheet" type="text/css" id="color_scheme" />
         <?php
-        if (isset($extracss)) {
+        if (isset($extracss) && !empty($extracss)) {
             $this->load->view($extracss);
         }
         ?>

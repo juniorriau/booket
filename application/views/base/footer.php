@@ -12,7 +12,7 @@
 <script type="text/javascript" src="<?php echo base_url() ?>assets/app/js/app.js"></script>
 
 <?php
-if (isset($extrajs)) {
+if (isset($extrajs) && !empty($extrajs)) {
     $this->load->view($extrajs);
 }
 ?>

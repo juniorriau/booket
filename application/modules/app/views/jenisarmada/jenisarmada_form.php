@@ -27,6 +27,20 @@
             </div>
             <div class="panel-body">
                 <div class="form-group">
+                    <label for="varchar">Perusahaan
+                        <?php echo form_error('Perusahaan') ?>
+                    </label>
+                    <select name="perusahaan" id="perusahaan" class="form-control">
+                        <?php
+                        if(!empty($perusahaanlist)){
+                            foreach($perusahaanlist as $p){
+                                echo '<option value="'.$p->id.'" '.($p->id==$perusahaan?'selected':'').'>'.$p->namaperusahaan.'</option>';
+                            }
+                        }
+                        ?>  
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="varchar">Jenis
                         <?php echo form_error('jenis') ?>
                     </label>

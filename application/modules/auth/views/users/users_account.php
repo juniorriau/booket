@@ -1,26 +1,27 @@
 <!-- page title -->
 <header id="page-header">
-    <h1><?php echo ucfirst($this->uri->segment(2)) ?></h1>
+    <h1>
+        <?php echo ucfirst($this->uri->segment(2)) ?>
+    </h1>
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?php echo base_url($this->uri->segment(1)) ?>">Home</a></li>
-        <li class="breadcrumb-item "><a href="<?php echo base_url($this->uri->segment(1) . "/" . $this->uri->segment(2)) ?>"><?php echo ucfirst($this->uri->segment(2)) ?></a></li>
-        <li class="breadcrumb-item active"><?php echo ucfirst($this->uri->segment(3)) ?></li>
+        <li class="breadcrumb-item"><a href="<?php echo base_url($this->uri->segment(1)) ?>">Beranda</a></li>
+        <li class="breadcrumb-item "><a
+                href="<?php echo base_url($this->uri->segment(1) . "/" . $this->uri->segment(2)) ?>"><?php echo ucfirst($this->uri->segment(2)) ?></a></li>
+        <li class="breadcrumb-item active">
+            <?php echo ucfirst($this->uri->segment(3)) ?>
+        </li>
     </ol>
 </header>
 <!-- /page title -->
 
 
 <div id="content" class="padding-20">
-
-    <div class="panel panel-default">
-        <form action="<?php echo $action ?>" method="post" autocomplete="off">
+    <form method="post" action="<?php echo $action ?>" autocomplete="off">
+        <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-lg-3 col-md-6 col-sm-12">
-                        <div class="col-12"><?php echo ucfirst($this->uri->segment(2) . ' ' . $this->uri->segment(3)) ?></div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12 text-center">
-                        <?php echo $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?>
+                    <div class="col-lg-12">
+                        <?php echo ucfirst($this->uri->segment(2) . ' ' . $this->uri->segment(3)) ?>
                     </div>
                 </div>
             </div>
@@ -48,20 +49,22 @@
                     <input type="password" class="form-control" name="newpassword" id="newpassword" placeholder="New Password"  />
                 </div>
 
-            </div>
+                </div>
             <div class="panel-footer">
                 <div class="row">
                     <div class="col-md-12">
                         <div>
                             <input type="hidden" name="id" value="<?php echo $id; ?>" />
-                            <input type="hidden" name="oldpassword" value="<?php echo $password ?>"/>
-                            <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>">
-                            <button type="submit" class="btn btn-info"><?php echo $button ?></button>
-                            <a href="<?php echo site_url('app') ?>" class="btn btn-warning">Cancel</a>
+                            <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>"
+                                value="<?= $this->security->get_csrf_hash() ?>">
+                            <button type="submit" class="btn btn-primary">
+                                <?php echo $button ?>
+                            </button>
+                            <a href="<?php echo site_url('auth/users') ?>" class="btn btn-danger">Batal</a>
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>

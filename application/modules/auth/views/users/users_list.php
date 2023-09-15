@@ -68,7 +68,9 @@
                                 if ($users->isactive == 0) {
                                     echo anchor(site_url('auth/users/activate/' . $users->id), 'Activate', 'class="btn btn-sm btn-warning" onclick="javasciprt: return confirm(\'Are You Sure ?\')"');
                                 }
-                                echo anchor(site_url('auth/users/delete/' . $users->id), 'Delete', 'class="btn btn-sm btn-danger" onclick="javasciprt: return confirm(\'Are You Sure ?\')"');
+                                if($users->id!=1){
+                                    echo anchor(site_url('auth/users/delete/' . $users->id), 'Delete', 'class="btn btn-sm btn-danger" onclick="javasciprt: return confirm(\'Are You Sure ?\')"');
+                                }
                                 ?>
                             </td>
                         </tr>

@@ -13,7 +13,6 @@ class Jenisarmada extends MY_Controller
         $this->sess = $this->session->logged_in;
         $this->rolelist = $this->sess['rolelist'][ucfirst($this->uri->segment(2))];
         $this->load->model('Jenisarmada_model');
-        $this->load->model('Perusahaan_model');
         $this->load->library('form_validation');
     }
 
@@ -55,19 +54,11 @@ class Jenisarmada extends MY_Controller
 
     public function create() 
     {
-        $perusahaan='';
-        if($this->sess['rolename']!='Administrator'){
-            $perusahaan = $this->Perusahaan_model->get_by_id($this->sess['perusahaanid']);
-        }else{
-            $perusahaan = $this->Perusahaan_model->get_all();
-        }
         $data = array(
             'button' => 'Create',
             'action' => site_url('app/jenisarmada/create_action'),
 	    'id' => set_value('id'),
 	    'jenis' => set_value('jenis'),
-        'perusahaan'=>set_value('perusahaan'),
-        'perusahaanlist'=>$perusahaan,
         'session' => $this->sess,
         'rolelist' => $this->rolelist,
         'template' => 'jenisarmada/jenisarmada_form',
@@ -86,7 +77,6 @@ class Jenisarmada extends MY_Controller
         } else {
             $data = array(
 		'jenis' => $this->input->post('jenis',TRUE),
-        'perusahaan' => $this->input->post('perusahaan',TRUE),
 	    );
 
             $this->Jenisarmada_model->insert($data);
@@ -98,20 +88,12 @@ class Jenisarmada extends MY_Controller
     public function update($id) 
     {
         $row = $this->Jenisarmada_model->get_by_id($id);
-        $perusahaan='';
-        if($this->sess['rolename']!='Administrator'){
-            $perusahaan = $this->Perusahaan_model->get_by_id($this->sess['perusahaanid']);
-        }else{
-            $perusahaan = $this->Perusahaan_model->get_all();
-        }
         if ($row) {
             $data = array(
                 'button' => 'Update',
                 'action' => site_url('app/jenisarmada/update_action'),
 		'id' => set_value('id', $row->id),
 		'jenis' => set_value('jenis', $row->jenis),
-        'perusahaan'=>set_value('perusahaan', $row->perusahaan),
-        'namaperusahaan'=>$perusahaan->namaperusahaan,
         'session' => $this->sess,
         'rolelist' => $this->rolelist,
         'template' => 'jenisarmada/jenisarmada_form',
@@ -134,7 +116,6 @@ class Jenisarmada extends MY_Controller
         } else {
             $data = array(
 		'jenis' => $this->input->post('jenis',TRUE),
-        'perusahaan' => $this->input->post('perusahaan',TRUE),
 	    );
 
             $this->Jenisarmada_model->update($this->input->post('id', TRUE), $data);
@@ -160,8 +141,7 @@ class Jenisarmada extends MY_Controller
     public function _rules() 
     {
 	$this->form_validation->set_rules('jenis', 'jenis', 'trim|required|xss_clean');
-    $this->form_validation->set_rules('perusahaan','perusahaan','trim|required|numeric|xss_clean');
-
+    
 	$this->form_validation->set_rules('id', 'id', 'trim');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }

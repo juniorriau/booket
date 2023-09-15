@@ -33,7 +33,6 @@ class Jenisarmada_model extends CI_Model
     function total_rows($q = NULL)
     {
         $this->db->like('id', $q);
-        $this->db->or_like('perusahaan', $q);
         $this->db->or_like('jenis', $q);
         $this->db->or_like('createdat', $q);
         $this->db->or_like('createdby', $q);
@@ -46,20 +45,12 @@ class Jenisarmada_model extends CI_Model
     // get data with limit and search
     function get_limit_data($limit, $start = 0, $q = NULL)
     {
-        $this->db->select('j.*, p.namaperusahaan');
-        $this->db->from('jenisarmada j');
-        $this->db->join('perusahaan p', 'p.id=j.perusahaan', 'left');
-        $this->db->order_by('j.id', $this->order);
-        $this->db->group_start();
-        $this->db->like('j.id', $q);
-        $this->db->or_like('j.perusahaan', $q);
-        $this->db->or_like('j.jenis', $q);
-        $this->db->or_like('j.createdat', $q);
-        $this->db->or_like('j.createdby', $q);
-        $this->db->or_like('j.updatedat', $q);
-        $this->db->or_like('j.updatedby', $q);
-        $this->db->or_like('p.namaperusahaan', $q);
-        $this->db->group_end();
+        $this->db->like('id', $q);
+        $this->db->or_like('jenis', $q);
+        $this->db->or_like('createdat', $q);
+        $this->db->or_like('createdby', $q);
+        $this->db->or_like('updatedat', $q);
+        $this->db->or_like('updatedby', $q);
         $this->db->limit($limit, $start);
         return $this->db->get($this->table)->result();
     }

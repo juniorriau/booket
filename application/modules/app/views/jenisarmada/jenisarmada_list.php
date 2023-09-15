@@ -53,7 +53,6 @@
                 <table class="table table-bordered" style="margin-bottom: 10px">
                     <tr>
                         <th>No</th>
-                        <th>Perusahaan</th>
                         <th>Jenis</th>
                         <th>Action</th>
                     </tr>
@@ -63,9 +62,6 @@
                         <tr>
                             <td width="80px">
                                 <?php echo ++$start ?>
-                            </td>
-                            <td>
-                                <?php echo $jenisarmada->namaperusahaan ?>
                             </td>
                             <td>
                                 <?php echo $jenisarmada->jenis ?>

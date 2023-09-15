@@ -1,60 +1,96 @@
-<!doctype html>
-<html>
-    <head>
-        <title>harviacode.com - codeigniter crud generator</title>
-        <link rel="stylesheet" href="<?php echo base_url('assets/bootstrap/css/bootstrap.min.css') ?>"/>
-        <style>
-            body{
-                padding: 15px;
-            }
-        </style>
-    </head>
-    <body>
-        <h2 style="margin-top:0px">Rute <?php echo $button ?></h2>
-        <form action="<?php echo $action; ?>" method="post">
-	    <div class="form-group">
-            <label for="varchar">Guuid <?php echo form_error('guuid') ?></label>
-            <input type="text" class="form-control" name="guuid" id="guuid" placeholder="Guuid" value="<?php echo $guuid; ?>" />
+<!-- page title -->
+<header id="page-header">
+    <h1>
+        <?php echo ucfirst($this->uri->segment(2)) ?>
+    </h1>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="<?php echo base_url($this->uri->segment(1)) ?>">Beranda</a></li>
+        <li class="breadcrumb-item "><a
+                href="<?php echo base_url($this->uri->segment(1) . "/" . $this->uri->segment(2)) ?>"><?php echo ucfirst($this->uri->segment(2)) ?></a></li>
+        <li class="breadcrumb-item active">
+            <?php echo ucfirst($this->uri->segment(3)) ?>
+        </li>
+    </ol>
+</header>
+<!-- /page title -->
+
+
+<div id="content" class="padding-20">
+    <form method="post" action="<?php echo $action ?>" autocomplete="off">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <?php echo ucfirst($this->uri->segment(2) . ' ' . $this->uri->segment(3)) ?>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="varchar">Koderute
+                        <?php echo form_error('koderute') ?>
+                    </label>
+                    <input type="text" class="form-control" name="koderute" id="koderute" placeholder="Koderute"
+                        value="<?php echo $koderute; ?>" />
+                </div>
+                <div class="form-group">
+                    <label for="varchar">Kotaasal
+                        <?php echo form_error('kotaasal') ?>
+                    </label>
+                    <input type="text" class="form-control" name="kotaasal" id="kotaasal" placeholder="Kotaasal"
+                        value="<?php echo $kotaasal; ?>" />
+                </div>
+                <div class="form-group">
+                    <label for="varchar">Kotatujuan
+                        <?php echo form_error('kotatujuan') ?>
+                    </label>
+                    <input type="text" class="form-control" name="kotatujuan" id="kotatujuan" placeholder="Kotatujuan"
+                        value="<?php echo $kotatujuan; ?>" />
+                </div>
+                <div class="form-group">
+                    <label for="int">Jenistiket
+                        <?php echo form_error('jenistiket') ?>
+                    </label>
+                    <select name="jenistiket" id="jenistiket" class="form-control">
+                        <?php
+                        if (!empty($kelas)) {
+                            foreach ($kelas as $k) {
+                                echo '<option value="' . $k->id . '" ' . ($k->id == $jenistiket ? 'selected' : '') . '>' . $k->namakelas . '</option>';
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="int">Perusahaan
+                        <?php echo form_error('perusahaan') ?>
+                    </label>
+                    <select name="perusahaan" id="perusahaan" class="form-control">
+                        <?php
+                        if (!empty($perusahaanlist)) {
+                            foreach ($perusahaanlist as $p) {
+                                echo '<option value="' . $p->id . '" ' . ($p->id == $perusahaan ? 'selected' : '') . '>' . $p->namaperusahaan . '</option>';
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <input type="hidden" name="id" value="<?php echo $id; ?>" />
+                            <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>"
+                                value="<?= $this->security->get_csrf_hash() ?>">
+                            <button type="submit" class="btn btn-primary">
+                                <?php echo $button ?>
+                            </button>
+                            <a href="<?php echo site_url('app/rute') ?>" class="btn btn-danger">Batal</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-	    <div class="form-group">
-            <label for="varchar">Koderute <?php echo form_error('koderute') ?></label>
-            <input type="text" class="form-control" name="koderute" id="koderute" placeholder="Koderute" value="<?php echo $koderute; ?>" />
-        </div>
-	    <div class="form-group">
-            <label for="varchar">Kotaasal <?php echo form_error('kotaasal') ?></label>
-            <input type="text" class="form-control" name="kotaasal" id="kotaasal" placeholder="Kotaasal" value="<?php echo $kotaasal; ?>" />
-        </div>
-	    <div class="form-group">
-            <label for="varchar">Kotatujuan <?php echo form_error('kotatujuan') ?></label>
-            <input type="text" class="form-control" name="kotatujuan" id="kotatujuan" placeholder="Kotatujuan" value="<?php echo $kotatujuan; ?>" />
-        </div>
-	    <div class="form-group">
-            <label for="int">Perusahaan <?php echo form_error('perusahaan') ?></label>
-            <input type="text" class="form-control" name="perusahaan" id="perusahaan" placeholder="Perusahaan" value="<?php echo $perusahaan; ?>" />
-        </div>
-	    <div class="form-group">
-            <label for="datetime">Createdat <?php echo form_error('createdat') ?></label>
-            <input type="text" class="form-control" name="createdat" id="createdat" placeholder="Createdat" value="<?php echo $createdat; ?>" />
-        </div>
-	    <div class="form-group">
-            <label for="int">Createdby <?php echo form_error('createdby') ?></label>
-            <input type="text" class="form-control" name="createdby" id="createdby" placeholder="Createdby" value="<?php echo $createdby; ?>" />
-        </div>
-	    <div class="form-group">
-            <label for="datetime">Updatedat <?php echo form_error('updatedat') ?></label>
-            <input type="text" class="form-control" name="updatedat" id="updatedat" placeholder="Updatedat" value="<?php echo $updatedat; ?>" />
-        </div>
-	    <div class="form-group">
-            <label for="int">Updatedby <?php echo form_error('updatedby') ?></label>
-            <input type="text" class="form-control" name="updatedby" id="updatedby" placeholder="Updatedby" value="<?php echo $updatedby; ?>" />
-        </div>
-	    <div class="form-group">
-            <label for="bigint">Armada <?php echo form_error('armada') ?></label>
-            <input type="text" class="form-control" name="armada" id="armada" placeholder="Armada" value="<?php echo $armada; ?>" />
-        </div>
-	    <input type="hidden" name="id" value="<?php echo $id; ?>" /> 
-	    <button type="submit" class="btn btn-primary"><?php echo $button ?></button> 
-	    <a href="<?php echo site_url('rute') ?>" class="btn btn-default">Cancel</a>
-	</form>
-    </body>
-</html>
+    </form>
+</div>

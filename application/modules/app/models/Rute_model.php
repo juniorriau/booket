@@ -28,40 +28,56 @@ class Rute_model extends CI_Model
         $this->db->where($this->id, $id);
         return $this->db->get($this->table)->row();
     }
-    
+
     // get total rows
-    function total_rows($q = NULL) {
-        $this->db->like('id', $q);
-	$this->db->or_like('guuid', $q);
-	$this->db->or_like('koderute', $q);
-	$this->db->or_like('kotaasal', $q);
-	$this->db->or_like('kotatujuan', $q);
-	$this->db->or_like('perusahaan', $q);
-	$this->db->or_like('createdat', $q);
-	$this->db->or_like('createdby', $q);
-	$this->db->or_like('updatedat', $q);
-	$this->db->or_like('updatedby', $q);
-	$this->db->or_like('armada', $q);
-	$this->db->from($this->table);
+    function total_rows($where, $q = NULL)
+    {
+        $this->db->select('r.*,p.namaperusahaan,k.namakelas');
+        $this->db->from('rute r');
+        $this->db->join('perusahaan p', 'p.id=r.perusahaan', 'left');
+        $this->db->join('kelas k','k.id=r.jenistiket','left');
+        $this->db->where($where);
+        $this->db->group_start();
+        $this->db->like('r.id', $q);
+        $this->db->or_like('r.guuid', $q);
+        $this->db->or_like('r.koderute', $q);
+        $this->db->or_like('r.kotaasal', $q);
+        $this->db->or_like('r.kotatujuan', $q);
+        $this->db->or_like('r.perusahaan', $q);
+        $this->db->or_like('r.createdat', $q);
+        $this->db->or_like('r.createdby', $q);
+        $this->db->or_like('r.updatedat', $q);
+        $this->db->or_like('r.updatedby', $q);
+        $this->db->or_like('p.namaperusahaan', $q);
+        $this->db->or_like('k.namakelas',$q);
+        $this->db->group_end();
         return $this->db->count_all_results();
     }
 
     // get data with limit and search
-    function get_limit_data($limit, $start = 0, $q = NULL) {
-        $this->db->order_by($this->id, $this->order);
-        $this->db->like('id', $q);
-	$this->db->or_like('guuid', $q);
-	$this->db->or_like('koderute', $q);
-	$this->db->or_like('kotaasal', $q);
-	$this->db->or_like('kotatujuan', $q);
-	$this->db->or_like('perusahaan', $q);
-	$this->db->or_like('createdat', $q);
-	$this->db->or_like('createdby', $q);
-	$this->db->or_like('updatedat', $q);
-	$this->db->or_like('updatedby', $q);
-	$this->db->or_like('armada', $q);
-	$this->db->limit($limit, $start);
-        return $this->db->get($this->table)->result();
+    function get_limit_data($limit, $where, $start = 0, $q = NULL)
+    {
+        $this->db->select('r.*,p.namaperusahaan,k.namakelas');
+        $this->db->from('rute r');
+        $this->db->join('perusahaan p', 'p.id=r.perusahaan', 'left');
+        $this->db->join('kelas k','k.id=r.jenistiket','left');
+        $this->db->where($where);
+        $this->db->group_start();
+        $this->db->like('r.id', $q);
+        $this->db->or_like('r.guuid', $q);
+        $this->db->or_like('r.koderute', $q);
+        $this->db->or_like('r.kotaasal', $q);
+        $this->db->or_like('r.kotatujuan', $q);
+        $this->db->or_like('r.perusahaan', $q);
+        $this->db->or_like('r.createdat', $q);
+        $this->db->or_like('r.createdby', $q);
+        $this->db->or_like('r.updatedat', $q);
+        $this->db->or_like('r.updatedby', $q);
+        $this->db->or_like('p.namaperusahaan', $q);
+        $this->db->or_like('k.namakelas',$q);
+        $this->db->group_end();
+        $this->db->limit($limit, $start);
+        return $this->db->get()->result();
     }
 
     // insert data

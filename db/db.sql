@@ -1,8 +1,8 @@
--- MySQL dump 10.19  Distrib 10.3.38-MariaDB, for debian-linux-gnu (x86_64)
+-- MariaDB dump 10.19  Distrib 10.4.27-MariaDB, for Win64 (AMD64)
 --
 -- Host: localhost    Database: booket
 -- ------------------------------------------------------
--- Server version	10.3.38-MariaDB-0ubuntu0.20.04.1
+-- Server version	10.4.27-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -51,6 +51,61 @@ LOCK TABLES `armada` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `fasilitas`
+--
+
+DROP TABLE IF EXISTS `fasilitas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `fasilitas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fasilitas` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `fasilitas`
+--
+
+LOCK TABLES `fasilitas` WRITE;
+/*!40000 ALTER TABLE `fasilitas` DISABLE KEYS */;
+INSERT INTO `fasilitas` VALUES (1,'AC'),(2,'Reclining Seat'),(3,'Toilet'),(4,'Snack'),(5,'Wi-Fi'),(6,'Selimut'),(7,'Bantal');
+/*!40000 ALTER TABLE `fasilitas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hargatiket`
+--
+
+DROP TABLE IF EXISTS `hargatiket`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hargatiket` (
+  `id` bigint(25) NOT NULL AUTO_INCREMENT,
+  `rute` bigint(25) NOT NULL,
+  `jenistiket` int(15) NOT NULL,
+  `perusahaan` int(25) NOT NULL,
+  `harga` int(11) NOT NULL,
+  `createdat` datetime NOT NULL,
+  `createdby` int(11) NOT NULL,
+  `updatedat` datetime NOT NULL,
+  `updatedby` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hargatiket`
+--
+
+LOCK TABLES `hargatiket` WRITE;
+/*!40000 ALTER TABLE `hargatiket` DISABLE KEYS */;
+INSERT INTO `hargatiket` VALUES (1,1,1,1,150000,'2023-09-15 05:21:44',1,'2023-09-15 05:21:44',1),(2,1,2,1,175000,'2023-09-14 15:38:02',1,'2023-09-14 15:38:02',1),(3,1,3,1,175000,'2023-09-14 15:38:10',1,'2023-09-14 15:38:10',1),(4,1,4,1,225000,'2023-09-14 15:38:21',1,'2023-09-14 15:38:21',1),(5,1,5,1,350000,'2023-09-14 15:38:30',1,'2023-09-14 15:38:30',1),(6,1,6,1,375000,'2023-09-14 15:38:38',1,'2023-09-14 15:38:38',1),(7,1,7,1,425000,'2023-09-14 15:38:50',1,'2023-09-14 15:38:50',1);
+/*!40000 ALTER TABLE `hargatiket` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `icons`
 --
 
@@ -59,10 +114,10 @@ DROP TABLE IF EXISTS `icons`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `icons` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `icon` varchar(50) NOT NULL,
-  `unicode` varchar(6) NOT NULL,
+  `icon` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `unicode` varchar(6) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1098 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=1098 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -86,8 +141,8 @@ CREATE TABLE `jadwal` (
   `id` bigint(25) NOT NULL AUTO_INCREMENT,
   `guuid` varchar(50) NOT NULL,
   `kodejadwal` varchar(25) NOT NULL,
-  `armada` bigint(25) NOT NULL,
   `perusahaan` int(15) NOT NULL,
+  `armada` bigint(25) NOT NULL,
   `tanggalberangkat` date NOT NULL,
   `tanggalpulang` date NOT NULL,
   `jenisperjalanan` varchar(25) NOT NULL,
@@ -121,9 +176,14 @@ DROP TABLE IF EXISTS `jenisarmada`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jenisarmada` (
   `id` int(15) NOT NULL AUTO_INCREMENT,
+  `perusahaan` int(15) NOT NULL,
   `jenis` varchar(255) NOT NULL,
+  `createdat` datetime NOT NULL,
+  `createdby` int(111) NOT NULL,
+  `updatedat` datetime NOT NULL,
+  `updatedby` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -132,30 +192,36 @@ CREATE TABLE `jenisarmada` (
 
 LOCK TABLES `jenisarmada` WRITE;
 /*!40000 ALTER TABLE `jenisarmada` DISABLE KEYS */;
+INSERT INTO `jenisarmada` VALUES (1,1,'MPV Avanza/Xenia','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',0),(2,0,'MPV Kijang Innoa','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',0),(3,0,'MPV Panther','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',0),(4,0,'MPV Terios/Rush','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',0),(5,0,'Compact Van Luxio','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',0),(6,0,'Compact Van APV','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',0),(7,0,'Compact Van Grand Max','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',0),(8,0,'Compact Van Evalia','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',0),(9,0,'Minivan HiAce','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',0),(10,0,'Minibus L300','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',0),(11,0,'Minibus Elf','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',0),(12,0,'Mikro Bus','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',0);
 /*!40000 ALTER TABLE `jenisarmada` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `jenistiket`
+-- Table structure for table `kelas`
 --
 
-DROP TABLE IF EXISTS `jenistiket`;
+DROP TABLE IF EXISTS `kelas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `jenistiket` (
-  `id` int(15) NOT NULL AUTO_INCREMENT,
-  `jenis` varchar(25) NOT NULL,
+CREATE TABLE `kelas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `namakelas` varchar(100) NOT NULL,
+  `createdat` datetime NOT NULL,
+  `createdby` int(11) NOT NULL,
+  `updatedat` datetime NOT NULL,
+  `updatedby` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `jenistiket`
+-- Dumping data for table `kelas`
 --
 
-LOCK TABLES `jenistiket` WRITE;
-/*!40000 ALTER TABLE `jenistiket` DISABLE KEYS */;
-/*!40000 ALTER TABLE `jenistiket` ENABLE KEYS */;
+LOCK TABLES `kelas` WRITE;
+/*!40000 ALTER TABLE `kelas` DISABLE KEYS */;
+INSERT INTO `kelas` VALUES (1,'Ekonomi','2023-09-13 03:23:45',1,'2023-09-13 03:23:45',1),(2,'AC Ekonomi','2023-09-13 03:23:51',1,'2023-09-13 03:23:51',1),(3,'RS non AC','2023-09-13 03:24:30',1,'2023-09-13 03:24:30',1),(4,'RS AC','2023-09-13 03:24:34',1,'2023-09-13 03:24:34',1),(5,'VIP','2023-09-13 03:24:50',1,'2023-09-13 03:24:50',1),(6,'Eksekutif','2023-09-13 03:24:56',1,'2023-09-13 03:24:56',1),(7,'Super Eksekutif','2023-09-13 03:25:10',1,'2023-09-13 03:25:10',1);
+/*!40000 ALTER TABLE `kelas` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -172,12 +238,13 @@ CREATE TABLE `perusahaan` (
   `penanggungjawab` varchar(100) NOT NULL,
   `nomorpenanggungjawab` varchar(18) NOT NULL,
   `telepon` varchar(18) NOT NULL,
+  `referenceuser` int(11) NOT NULL,
   `createdat` datetime NOT NULL,
   `createdby` int(11) NOT NULL,
   `updatedat` datetime NOT NULL,
   `updatedby` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -186,6 +253,7 @@ CREATE TABLE `perusahaan` (
 
 LOCK TABLES `perusahaan` WRITE;
 /*!40000 ALTER TABLE `perusahaan` DISABLE KEYS */;
+INSERT INTO `perusahaan` VALUES (1,'PO Cahaya Abadi Lintas Pertiwi','Jl. Sudirman Block C 11 Sukamulya','Hari Suryono','08879813410','09293874923',2,'2023-09-02 07:23:49',1,'2023-09-02 08:24:09',1);
 /*!40000 ALTER TABLE `perusahaan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,14 +267,14 @@ DROP TABLE IF EXISTS `roledetails`;
 CREATE TABLE `roledetails` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `roleid` int(11) NOT NULL,
-  `roledetail` text NOT NULL,
-  `navigation` text NOT NULL DEFAULT '{}',
+  `roledetail` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `navigation` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '{}',
   `createdat` datetime NOT NULL,
   `createdby` int(11) NOT NULL,
   `updatedat` datetime NOT NULL,
   `updatedby` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -215,6 +283,7 @@ CREATE TABLE `roledetails` (
 
 LOCK TABLES `roledetails` WRITE;
 /*!40000 ALTER TABLE `roledetails` DISABLE KEYS */;
+INSERT INTO `roledetails` VALUES (1,1,'{\"rolename\":\"Administrator\",\"Perusahaan\":[\"index\",\"create\",\"update\",\"delete\"],\"Jenisarmada\":[\"index\",\"create\",\"update\",\"delete\"],\"Fasilitas\":[\"index\",\"create\",\"update\",\"delete\"],\"Kelas\":[\"index\",\"create\",\"update\",\"delete\"],\"Rute\":[\"index\",\"read\",\"create\",\"update\",\"delete\"],\"Armada\":[\"index\",\"read\",\"create\",\"update\",\"delete\"],\"Hargatiket\":[\"index\",\"create\",\"update\",\"delete\"]}','{}','2023-09-02 04:24:15',1,'2023-09-15 00:22:09',1),(2,2,'{\"rolename\":\"Tenants\",\"Jenisarmada\":[\"index\",\"create\",\"update\",\"delete\"],\"Rute\":[\"index\",\"create\",\"update\",\"delete\"],\"Armada\":[\"index\",\"read\",\"create\",\"update\",\"delete\"],\"Hargatiket\":[\"index\",\"create\",\"update\",\"delete\"]}','{}','2023-09-15 09:13:32',1,'2023-09-15 09:35:01',1);
 /*!40000 ALTER TABLE `roledetails` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,7 +302,7 @@ CREATE TABLE `roles` (
   `updatedat` datetime NOT NULL,
   `updatedby` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -242,7 +311,7 @@ CREATE TABLE `roles` (
 
 LOCK TABLES `roles` WRITE;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES (1,'Adminstrator','2022-11-01 12:52:16',1,'2022-11-01 12:52:16',1);
+INSERT INTO `roles` VALUES (1,'Administrator','2022-11-01 12:52:16',1,'2022-11-01 12:52:16',1),(2,'Tenants','2023-09-15 09:12:26',1,'2023-09-15 09:12:26',1);
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -265,7 +334,7 @@ CREATE TABLE `routings` (
   `updatedat` datetime NOT NULL,
   `updatedby` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -274,6 +343,7 @@ CREATE TABLE `routings` (
 
 LOCK TABLES `routings` WRITE;
 /*!40000 ALTER TABLE `routings` DISABLE KEYS */;
+INSERT INTO `routings` VALUES (1,'Perusahaan','app/perusahaan','Perusahaan','cubes','{\"1\":\"index\",\"2\":\"create\",\"4\":\"update\",\"6\":\"delete\"}','2023-09-02 07:19:45',1,'2023-09-15 00:22:02',1),(2,'Jenisarmada','app/jenisarmada','Jenis Armada','shuttle-van','{\"1\":\"index\",\"2\":\"create\",\"4\":\"update\",\"6\":\"delete\"}','2023-09-02 07:34:29',1,'2023-09-15 00:22:02',1),(3,'Fasilitas','app/fasilitas','Fasilitas','check','{\"1\":\"index\",\"2\":\"create\",\"4\":\"update\",\"6\":\"delete\"}','2023-09-02 15:04:39',1,'2023-09-15 00:22:02',1),(11,'Armada','app/armada','Armada','bus-alt','{\"1\":\"index\",\"2\":\"read\",\"3\":\"create\",\"5\":\"update\",\"7\":\"delete\"}','2023-09-13 03:27:40',1,'2023-09-15 00:22:02',1),(12,'Hargatiket','app/hargatiket','Harga Tiket','tags','{\"1\":\"index\",\"2\":\"create\",\"4\":\"update\",\"6\":\"delete\"}','2023-09-13 03:28:19',1,'2023-09-15 00:22:02',1),(10,'Rute','app/rute','Rute Perjalanan','expand-arrows-alt','{\"1\":\"index\",\"2\":\"read\",\"3\":\"create\",\"5\":\"update\",\"7\":\"delete\"}','2023-09-13 03:27:04',1,'2023-09-15 00:22:02',1),(9,'Kelas','app/kelas','Kelas','clone','{\"1\":\"index\",\"2\":\"create\",\"4\":\"update\",\"6\":\"delete\"}','2023-09-13 03:23:13',1,'2023-09-15 00:22:02',1);
 /*!40000 ALTER TABLE `routings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -290,14 +360,14 @@ CREATE TABLE `rute` (
   `koderute` varchar(25) NOT NULL,
   `kotaasal` varchar(100) NOT NULL,
   `kotatujuan` varchar(100) NOT NULL,
+  `jenistiket` int(11) NOT NULL,
   `perusahaan` int(15) NOT NULL,
   `createdat` datetime NOT NULL,
   `createdby` int(11) NOT NULL,
   `updatedat` datetime NOT NULL,
   `updatedby` int(11) NOT NULL,
-  `armada` bigint(25) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -306,6 +376,7 @@ CREATE TABLE `rute` (
 
 LOCK TABLES `rute` WRITE;
 /*!40000 ALTER TABLE `rute` DISABLE KEYS */;
+INSERT INTO `rute` VALUES (1,'3fd48e8e-5607-45ce-9572-b7c640ded1f5','CALP-PKU_MDN','Pekanbaru','Medan',2,1,'2023-09-15 01:31:35',1,'2023-09-15 04:33:35',1);
 /*!40000 ALTER TABLE `rute` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -321,7 +392,7 @@ CREATE TABLE `settings` (
   `setting_name` varchar(100) NOT NULL,
   `setting_value` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -330,7 +401,7 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES (1,'site_name',''),(2,'site_url','http://localhost/booket'),(3,'site_title',''),(4,'site_description',''),(5,'site_email',''),(6,'site_logo',''),(7,'site_icon',''),(8,'smtp_host',''),(9,'smtp_user',''),(10,'smtp_pass',''),(11,'smtp_port',''),(12,'smtp_secure',''),(13,'reply_to',''),(14,'email_from',''),(15,'email_from_name',''),(16,'site_address',''),(17,'site_phone',''),(18,'site_menu',''),(19,'site_limit_post',''),(20,'site_enable_recent',''),(21,'social_facebook',''),(22,'social_twitter',''),(23,'social_instagram',''),(24,'social_youtube',''),(25,'social_thumbler',''),(26,'social_pinterest',''),(27,'social_linkedin',''),(45,'letter_approval2',''),(44,'letter_approval1',''),(43,'letter_footer',''),(42,'letter_header',''),(41,'population',''),(40,'village_area',''),(39,'village_logo',''),(38,'village_name',''),(37,'call_name',''),(46,'letter_signature_approval1',''),(47,'letter_signature_approval2',''),(48,'letter_validator',''),(49,'site_modules',''),(50,'site_greeting','');
+INSERT INTO `settings` VALUES (1,'site_name','Booking Tiket Online'),(2,'site_url','http://localhost/booket'),(3,'site_title','Booking Tiket Online'),(4,'site_description','Booking Tiket Online'),(5,'site_email',''),(6,'site_logo_vertical',''),(7,'site_logo_hostizonal',''),(8,'site_icon',''),(9,'smtp_host',''),(10,'smtp_user',''),(11,'smtp_pass',''),(12,'smtp_port',''),(13,'smtp_secure','tls'),(14,'reply_to',''),(15,'email_from',''),(16,'email_from_name',''),(17,'site_address',''),(18,'site_phone',''),(19,'site_menu',''),(20,'site_limit_post',''),(21,'site_enable_recent','0'),(22,'social_facebook',''),(23,'social_twitter',''),(24,'social_instagram',''),(25,'social_youtube',''),(26,'social_thumbler',''),(27,'social_pinterest',''),(28,'social_linkedin','');
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -372,6 +443,40 @@ LOCK TABLES `supir` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `tiket`
+--
+
+DROP TABLE IF EXISTS `tiket`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tiket` (
+  `id` bigint(50) NOT NULL AUTO_INCREMENT,
+  `guuid` varchar(50) NOT NULL,
+  `kodetiket` varchar(50) NOT NULL,
+  `jumlah` int(5) NOT NULL,
+  `rute` bigint(25) NOT NULL,
+  `perusahaan` int(15) NOT NULL,
+  `armada` bigint(25) NOT NULL,
+  `jenistiket` int(15) NOT NULL,
+  `jadwal` datetime NOT NULL,
+  `createdat` datetime NOT NULL,
+  `createdby` int(11) NOT NULL,
+  `updatedat` datetime NOT NULL,
+  `updatedby` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tiket`
+--
+
+LOCK TABLES `tiket` WRITE;
+/*!40000 ALTER TABLE `tiket` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tiket` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `userdetails`
 --
 
@@ -392,7 +497,7 @@ CREATE TABLE `userdetails` (
   `updatedat` datetime NOT NULL,
   `updatedby` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -401,7 +506,7 @@ CREATE TABLE `userdetails` (
 
 LOCK TABLES `userdetails` WRITE;
 /*!40000 ALTER TABLE `userdetails` DISABLE KEYS */;
-INSERT INTO `userdetails` VALUES (1,1,'Administrator','admin@digips.id','','','public/uploads/2022/11/ICONGODESA.png','','2022-11-01 12:53:22',1,'2022-11-08 08:10:54',1);
+INSERT INTO `userdetails` VALUES (1,1,'Administrator','admin@digips.id','','','public/uploads/2022/11/ICONGODESA.png','','2022-11-01 12:53:22',1,'2022-11-08 08:10:54',1),(2,2,'Admin PO Cahaya Abadi Lintas Pertiwi','','','','','','2023-09-15 09:19:30',1,'2023-09-15 09:26:57',2);
 /*!40000 ALTER TABLE `userdetails` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -430,7 +535,7 @@ CREATE TABLE `users` (
   `updatedby` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -439,7 +544,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'administrator','admin@digips.id','001f7bcfd3089689607b735a8cd18a3633d667d5','1',1,1,'bafcda3891a5455e86fa715443fdb9dd','0000-00-00 00:00:00','2023-08-28 08:03:05','2023-05-28 07:41:07','2022-11-01 12:52:53',1,'2023-02-06 11:58:50',1);
+INSERT INTO `users` VALUES (1,'administrator','admin@digips.id','c8d7a670fbc188a77947db93b4a7d079517282a4','1',1,1,'bafcda3891a5455e86fa715443fdb9dd','0000-00-00 00:00:00','2023-09-15 16:11:03','2023-09-15 09:33:01','2022-11-01 12:52:53',1,'2023-02-06 11:58:50',1),(2,'adminpocahaya','admin@pocahaya.com','5eed838a2f3695d72bd652c6368546b3b5400495','0',1,2,'','0000-00-00 00:00:00','0000-00-00 00:00:00','2023-09-15 11:54:53','2023-09-15 09:19:30',1,'2023-09-15 09:19:30',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -452,4 +557,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-01 14:07:58
+-- Dump completed on 2023-09-17  7:33:36
